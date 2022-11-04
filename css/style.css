@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+/* 全体に関わるところ */
+.spacing{
+    padding: 30px 0 0 30px;
+}
+
+.spacing15{
+    padding-top: 15px;
+}
+
+h1{
+    font-weight: bold;
+    color: blueviolet;
+}
+
+h2{
+    font-weight: bold;
+}
+
+.margin{
+    margin-top: 15px;
+}
+
+
+/* ここからheader */
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    background-color: lightblue;
+
+}
+
+.logo{
+    height: auto;
+    margin: 0 0 0 30px;
+    width: 100px;
+    font-size: 30px;
+    height: auto;
+    color:white;
+    font-weight: bold;
+}
+
+.gnav_menu {
+    display: flex;
+}
+
+li {
+    display: inline-block;
+    margin: 50px 50px 50px 0px;
+}
+
+/* ここまでheader */
+
+
+/* preparation */
+
+.yokonarabi{
+    display: flex;
+}
+
+.hanasu{
+   margin-left: auto;
+}
+
+
