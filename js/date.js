@@ -1,5 +1,5 @@
 
 	$(function() {
 		$.datepicker.setDefaults($.datepicker.regional["ja"]);
-		$("#date").datepicker();
+		$("#contest_date").datepicker();
 	});

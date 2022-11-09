@@ -16,22 +16,22 @@
   
          <nav>
           <ul class="gnav_menu">
-            <li><a href="#preparation">事前入力画面</a></li>
-            <li><a href="#log">記録入力画面</a></li>
-            <li><a href="#score">順位</a></li>
+            <li class="gnav_li"><a href="index.html">事前入力画面</a></li>
+            <li class="gnav_li"><a href="log.html">記録入力画面</a></li>
+            <li class="gnav_li"><a href="scorelist.html">順位</a></li>
           </ul>
         </nav>
       </header>
       <!--#header -->
 
     <section id="preparation" class="spacing">
-    <div class="yokonarabi">
         <div>
             <h1>事前入力</h1>
+            <!-- 大会登録の際に、ラジオボタンでどれを生成するか一括で選んだらいいのでは -->
             <h2>科目登録をする</h2>
-            <p>開催日 <input type="text" id="date" /></p>
-            <p>競技会名 <input type="text" id = "kyougikaimei"></p>
-            <dev>科目名 <select id = "kamoku">
+            <p>開催日 <input type="text" id="contest_date" /></p>
+            <p>大会名 <input type="text" id ="contest_name"></p>
+            <dev>科目名 <select id = "test_name">
                 <option value = "0">選択してください</option>
                 <option value = "1">JEF 馬場馬術競技 第1課目</option>
                 <option value = "2">JEF 馬場馬術競技 第2課目A</option>
@@ -46,97 +46,41 @@
                 <option value = "11">JEF 馬場馬術競技 第5課目A</option>
                 <option value = "12">JEF 馬場馬術競技 第5課目B</option>
                 </select>
+                <div> 
+                    <input type="radio" name="official_game" value="公式">公式
+                    <input type="radio" name="official_game" value="非公式">非公式
+
+                </div>    
             </dev>
-            <div> <button>登録</button></div>
+            <div> <button id="set_create">科目登録</button></div>
         </div>
 
         <div>
-            <h2>出場者情報の登録</h2>
+            <h2 class="spacing15">出場者情報の登録</h2>
                 <p>所属<input type="text" name="school" id="school"></p>
                 <p>馬名<input type="text" name="horse" id="horse">号</p>
                 <p>競技者名 <input type="text" name="rider" id="rider"></p>
-                <p> <input type="radio" name="opensanka" value="opensanka">オープン参加</p>    
-            <button>登録</button>            
+                <p> <input type="radio" name="demonstration" value="demonstration">オープン参加</p>    
+            <button>出場者登録</button>            
         </div>
-    </div>
 
-        <div>
+
+        <div  class="debanbg margin">
             <h2 class="spacing15">出番順の登録</h2>
-            <p>ここに登録された競技名と科目名が入る</p>
-                <p> <img src="img/debanimage.JPG" alt="出番順のイメージ" style="width: 800px;"></p>
-        </div>
-
+            <div>
+            <div id="contest_data"></div>
+            <ul>
+                <!-- <li>競技者名　所属　馬名　オープン参加の有無</li> -->
+            </ul>
+            </div>
+        
         <div class="margin"></div>
         <button>これで競技会の〇〇を作成する</button>
-
+        </div>
 
         <div id="set" class="margin">決定後ここに科目セットが生成されるようにしたい</div>
         
-    </section>
-    
-    <section id="log" class="spacing">
-        <h1>記録入力</h1>
-        
-       <p>任意の科目セットをクリック</p>
-
-    
-       <div class="spacing15">
-        ■科目で設定されるもの
-        馬場の大きさ
-        参考時間
-      </div>
-
-      <div>
-        ■事前入力画面で設定されるもの
-        出番順（変更ボタン）
-        競技者名（リライト可能、アラート）
-        所属（リライト可能、アラート）
-        馬名(リライト可能、アラート)
-      </div>
-
-      <div>
-        ■事前設定
-        審判員名
-        審判員位置
-     </div>
-
-     <div>
-        ■採点中
-        順序
-        位置
-        運動科目
-        最高点
-        採点
-        修正
-        係数
-        合計
-        着眼点(複数あり)
-        観察初見
-    </div>
-    <div>
-        ■総合観察
-         採点
-         修正
-         係数
-         合計(計算後)
-         得点率（計算後）
-         所見
-        減点・ペナルティポイント
-    </div>
-    <div>
-        ■合計得点率％
-    </div>
-
-    </section>
-
-    <section id="score" class="spacing">
-        <h1>順位</h1>
-        競技会名
-        競技名
-        合計得点率％
-        これらを大きい順に並べる
-    </section>
-    
+    </section>    
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
