@@ -25,12 +25,13 @@
       <!--#header -->
 
     <section id="preparation" class="spacing">
+      <div class="yokonarabi">  
         <div>
             <h1>事前入力</h1>
             <!-- 大会登録の際に、ラジオボタンでどれを生成するか一括で選んだらいいのでは -->
             <h2>科目登録をする</h2>
-            <p>開催日 <input type="text" id="contest_date" /></p>
             <p>大会名 <input type="text" id ="contest_name"></p>
+            <p>開催日 <input type="text" id="contest_date" /></p>
             <dev>科目名 <select id = "test_name">
                 <option value = "0">選択してください</option>
                 <option value = "1">JEF 馬場馬術競技 第1課目</option>
@@ -55,33 +56,54 @@
             <div> <button id="set_create">科目登録</button></div>
         </div>
 
+        <!-- <button id="testinfo">科目情報登録</button> 
+        <div id="testtitle"></div>            -->
+
+
+
+
+        <div  class="debanbg margin yokomargin">
+            <h2 class="spacing15">出番順を登録する大会を選んでください</h2>
+            <div><br></div>
+            <div id="contest_data"></div>
+        </div>
+
+    </div>
+
         <div>
             <h2 class="spacing15">出場者情報の登録</h2>
                 <p>所属<input type="text" name="school" id="school"></p>
                 <p>馬名<input type="text" name="horse" id="horse">号</p>
                 <p>競技者名 <input type="text" name="rider" id="rider"></p>
+                <dev>科目名 <select id = "test_name">
+                    <option value = "0">選択してください</option>
+                    <option value = "1">JEF 馬場馬術競技 第1課目</option>
+                    <option value = "2">JEF 馬場馬術競技 第2課目A</option>
+                    <option value = "3">JEF 馬場馬術競技 第2課目B</option>
+                    <option value = "4">JEF 馬場馬術競技 第2課目C</option>
+                    <option value = "5">JEF 馬場馬術競技 第2課目D</option>
+                    <option value = "6">JEF 馬場馬術競技 第2課目E</option>
+                    <option value = "7">JEF 馬場馬術競技 第3課目A</option>
+                    <option value = "8">JEF 馬場馬術競技 第3課目B</option>
+                    <option value = "9">JEF 馬場馬術競技 第4課目A</option>
+                    <option value = "10">JEF 馬場馬術競技 第4課目B</option>
+                    <option value = "11">JEF 馬場馬術競技 第5課目A</option>
+                    <option value = "12">JEF 馬場馬術競技 第5課目B</option>
+                    </select>
+                    <div>     
                 <p> <input type="radio" name="demonstration" value="demonstration">オープン参加</p>    
             <button id="rider_list">出場者登録</button>            
         </div>
 
-
-        <div  class="debanbg margin">
-            <h2 class="spacing15">出番順の登録</h2>
-            <h2 id="contest_data"></h2>
-            <button id="all_clear">科目を削除する</button>
-            <div>
+        <div>
             <ul>
-                <!-- <li>競技者名　所属　馬名　オープン参加の有無</li> -->
+                <li>競技者名　所属　馬名　オープン参加の有無</li>
             </ul>
             </div>
-        <!-- <div class="margin"></div>
-        <button>プログラムを作成する</button>
-        </div> -->
 
-        <div id="test_set" class="margin"></div>
         
     </section>    
-
+<!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <!-- ここからdate.js  https://itsakura.com/jquery-datepicker -->
@@ -91,6 +113,194 @@
     <!-- ここまでdate.js -->
 
     <script src="js/main.js"></script>
-    <script src="js/date.js"></script>
+    <script src="js/date.js"></script>    
+
+<!-- jQuery -->
+
+<!-- Firebase -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase,
+  ref,
+  push,
+  set,
+  onChildAdded,
+  remove,
+  onChildRemoved,
+  serverTimestamp,
+  onValue,
+  query,
+  orderByChild,
+} from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // 接続のおまじない
+    const db = getDatabase(app);//RealtimeDBに接続
+    const dbRef = ref(db, "Dressage-calc");// Dressage-calcを設定する
+//  Firebase 基本設定ここまで
+
+//科目登録ボタンをクリックしたら
+    $("#set_create").on("click",function(){
+    // alert("セットクリエイトされたよ")
+
+        const contest_name= $("#contest_name").val();
+        const contest_date= $("#contest_date").val();
+        const test_name= $('option:selected').text();
+        const official_game= $('input[name="official_game"]:checked').val();
+
+
+        // 入力されたデータをオブジェクトにいれる   
+        const contestDataObj ={
+            contest_name: contest_name,
+            contest_date: contest_date,
+            test_name: test_name,
+            official_game: official_game,
+            date: serverTimestamp(),
+        };
+    
+    //データ登録・送信処理
+    // push準備
+    const newPostContest = push(dbRef);
+    //  DBに値をセット   
+    set(newPostContest, contestDataObj);   
+    
+    //送信後に入力欄を空にする（操作性の向上）
+        $("#contest_name").val("");
+        $("#contest_date").val("");
+        $('option:selected').text("");
+        $('input[name="official_game"]:checked').val("");
+
+    // カーソルを名前のところに移動する（操作性の向上）
+        $("#contest_name").focus();
+
+    // 送信イベントのかっこなので消さない
+    });
+
+
+    // 受信処理
+    onValue(dbRef, function (data) {
+    const d = data.val();
+    // console.log(d, "firebaseのデータ");
+    const v = query(ref(db,  `Dressage-calc`), orderByChild("date"));
+    // console.log(v); //debug
+
+    // 配列とonChildAddedを用いて、dateが小きい順の配列を作る
+    let arrDate = []; //dateが大きい順に格納するローカル変数を宣言
+
+  onChildAdded(v, function (data) {
+    // console.log(data.val());
+    // console.log(data.key);
+
+    const hash = {
+      key: data.key,
+      contest_name: data.val().contest_name,
+      contest_date: data.val().contest_date,
+      test_name: data.val().test_name,
+      official_game: data.val().official_game,
+      date: data.val().date,
+    };
+
+    arrDate.unshift(hash); //unshiftで配列の先頭に追加する
+    // console.log(arrDate, "sss"); //なぜか入っている数分だけ繰り返される
+
+  });
+
+  let dd = arrDate.map((item, index) => { //ここのitem何？？
+    const d = new Date(item.date);
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1;
+    let day = d.getDate(); //ここ間違ってました！
+    let hour = d.getHours();
+    let min = d.getMinutes();
+    let sec = d.getSeconds();
+    let h = `
+      <div class="contest_data" data-date=${item.key}>
+        <p>${item.contest_name}</p>
+        <p>${item.test_name}</p>
+        <button id="delete">削除</button>
+        <button id="create_set">作成</button>
+        <div><br></div>
+      </div>
+    `;
+    // <p>${year}年${month}月${day}日${hour}:${min}:${sec}</p>
+
+    return h;
+  });
+  $("#contest_data").html(dd);
+});
+
+// 削除をボタンを押したら
+$(document).on("click", "#delete", function () {
+  let target = $(this).parent().data("date");
+  remove(ref(db, "Dressage-calc/" + target));
+});
+
+
+// // 科目作成をボタンを押したら（未達）
+// $(document).on("click", "#create_set", function () {
+//     let d = $(this).parent().data("contest_name");
+//      console.log(deban);
+// });
+
+ここから出番順登録
+
+//出場者登録ボタンをクリックしたら
+$("#rider_list").on("click",function(){
+    // alert("セットクリエイトされたよ")
+
+        const school= $("#school").val();
+        const horse= $("#horse").val();
+        const rider= $("#rider").val();
+        const test_name_r= $('option:selected').text();
+        const demonstration= $('input[name="demonstration"]:checked').val();
+
+
+        // 入力されたデータをオブジェクトにいれる   
+        const riderDataObj ={
+            school: school,
+            horse: horse,
+            rider: rider,
+            test_name_r:test_name_r,
+            demonstration: demonstration,
+            edit_date: serverTimestamp(),
+        };
+        // console.log(riderDataObj.horse);
+
+
+    //データ登録・送信処理
+    // push準備
+    const newPostrider = push(dbRef);
+    //  DBに値をセット   
+    set(newPostrider, riderDataObj);   
+    
+    //送信後に入力欄を空にする（操作性の向上）
+        $("#school").val("");
+        $("#horse").val("");
+        $("#rider").val("");
+        $('input[name="official_game"]:checked').val("");
+
+    // カーソルを名前のところに移動する（操作性の向上）
+        $("#school").focus();
+
+    // 送信イベントのかっこなので消さない
+    });
+
+
+</script>
+
+
+<!-- Firebaseここまで -->
+
+
 </body>
 </html>
